@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
 
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CENTER, ZOOM));
+                googleMap.setLocationSource(new MockLocationSource());
+                googleMap.setMyLocationEnabled(true);
 
                 markerManager = new MarkerManager<>(googleMap);
 
