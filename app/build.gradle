@@ -16,6 +16,9 @@
 
 apply plugin: 'com.android.application'
 
+def GMAPS_API_KEY_DEBUG = "AIzaSyCIC7TzujfYBor-kRO-welvHdOAy0GIb5Y"
+def GMAPS_API_KEY_RELEASE = "AIzaSyCIC7TzujfYBor-kRO-welvHdOAy0GIb5Y" // TODO: Obtain release key
+
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
@@ -28,14 +31,24 @@ android {
         versionName "1.0"
     }
     buildTypes {
+
+        debug {
+            zipAlignEnabled true
+            manifestPlaceholders = [maps_api_key: GMAPS_API_KEY_DEBUG]
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [maps_api_key: GMAPS_API_KEY_RELEASE]
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.oguzbabaoglu:fancymarkers:0.1'
+
     compile 'com.android.support:appcompat-v7:22.1.0'
+    compile 'com.google.maps.android:android-maps-utils:0.3.4'
+    compile 'com.google.android.gms:play-services:7.0.0'
 }

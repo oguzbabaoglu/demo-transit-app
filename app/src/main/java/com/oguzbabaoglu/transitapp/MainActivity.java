@@ -17,25 +17,89 @@
 package com.oguzbabaoglu.transitapp;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.oguzbabaoglu.fancymarkers.MarkerManager;
+
+import java.util.ArrayList;
 
 /**
  * @author Oguz Babaoglu
  */
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG_MAP_FRAGMENT = "mainActivity.map";
+
+    // Berlin
+    private static final LatLng CENTER = new LatLng(52.520007, 13.404954);
+    private static final int ZOOM = 11;
+
+    private static final LatLng[] LOCATIONS = new LatLng[]{
+            new LatLng(52.56068229, 13.40632554),
+            new LatLng(52.47953663, 13.39603998),
+            new LatLng(52.50501533, 13.45857429),
+            new LatLng(52.53226326, 13.42090103),
+            new LatLng(52.53702663, 13.34097879)
+    };
+
+    private MarkerManager<TransitMarker> markerManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Only need to create map once
+        final SupportMapFragment mapFragment = savedInstanceState == null
+                ? createAndAddMap()
+                : (SupportMapFragment) getSupportFragmentManager().findFragmentByTag(TAG_MAP_FRAGMENT);
+
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CENTER, ZOOM));
+
+                markerManager = new MarkerManager<>(googleMap);
+
+                final ArrayList<TransitMarker> markers = new ArrayList<>(LOCATIONS.length);
+
+                for (LatLng latLng : LOCATIONS) {
+                    markers.add(new TransitMarker(latLng));
+                }
+
+                markerManager.addMarkers(markers);
+            }
+        });
+    }
+
+    /**
+     * Creates a Map fragment and adds to view.
+     *
+     * @return created map fragment
+     */
+    private SupportMapFragment createAndAddMap() {
+        final SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.map_container, mapFragment, TAG_MAP_FRAGMENT);
+        transaction.commit();
+
+        return mapFragment;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
