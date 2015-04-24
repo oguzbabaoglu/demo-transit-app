@@ -14,17 +14,28 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.0-beta1'
-    }
-}
+package com.oguzbabaoglu.transitapp.data.models;
 
-allprojects {
-    repositories {
-        jcenter()
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+
+/**
+ * @author Oguz Babaoglu
+ */
+public final class Routes {
+
+    @SerializedName("routes")
+    private ArrayList<Route> routes;
+
+    @SerializedName("provider_attributes")
+    private ProviderAttributes providerAttributes;
+
+    public ArrayList<Route> getRoutes() {
+        return routes;
+    }
+
+    public ProviderAttributes getProviderAttributes() {
+        return providerAttributes;
     }
 }

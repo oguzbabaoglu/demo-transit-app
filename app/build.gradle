@@ -42,12 +42,16 @@ android {
             manifestPlaceholders = [maps_api_key: GMAPS_API_KEY_RELEASE]
         }
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
 
     // Map dependencies
-    compile 'com.oguzbabaoglu:fancymarkers:0.1'
+    compile 'com.oguzbabaoglu:fancymarkers:0.2'
     compile 'com.google.maps.android:android-maps-utils:0.3.4'
 
     // Support lib
@@ -55,4 +59,8 @@ dependencies {
 
     // Data parsing
     compile 'com.google.code.gson:gson:2.3.1'
+
+    // Test dependencies
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:1.7.1'
 }

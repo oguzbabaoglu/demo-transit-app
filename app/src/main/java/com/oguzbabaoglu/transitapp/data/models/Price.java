@@ -14,16 +14,26 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.data.models;
 
-import android.app.Application;
-import android.test.ApplicationTestCase;
+import com.google.gson.annotations.SerializedName;
 
 /**
- * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
+ * @author Oguz Babaoglu
  */
-public class ApplicationTest extends ApplicationTestCase<Application> {
-    public ApplicationTest() {
-        super(Application.class);
+public final class Price {
+
+    @SerializedName("currency")
+    private String currency;
+
+    @SerializedName("amount")
+    private int amount;
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 }
