@@ -16,5 +16,6 @@
   -->
 
 <resources>
-    <color name="primary">#F22B5A</color>
+    <color name="primary">#27BC4B</color>
+    <color name="primary_dark">#17AB5A</color>
 </resources>
