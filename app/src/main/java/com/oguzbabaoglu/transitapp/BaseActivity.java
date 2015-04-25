@@ -30,7 +30,7 @@ import com.oguzbabaoglu.transitapp.util.FontUtil;
  *
  * @author Oguz Babaoglu
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements BaseController {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,4 +75,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         transaction.add(R.id.activity_content, fragment, fragment.getClass().getSimpleName());
         transaction.commit();
     }
+
+    @Override
+    public void register(BaseFragment fragment) {
+        // Register for Activity -> Fragment interaction (Network results etc.)
+    }
+
+    @Override
+    public void unregister(BaseFragment fragment) {
+        // unregister
+    }
+
 }

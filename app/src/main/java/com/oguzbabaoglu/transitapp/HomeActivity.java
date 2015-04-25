@@ -26,7 +26,7 @@ import android.view.MenuItem;
  *
  * @author Oguz Babaoglu
  */
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements HomeController {
 
     @Override
     protected Fragment getInitialFragment() {
@@ -55,4 +55,10 @@ public class HomeActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onRouteRequested() {
+        startActivity(RouteActivity.newIntent(this));
+    }
+
 }

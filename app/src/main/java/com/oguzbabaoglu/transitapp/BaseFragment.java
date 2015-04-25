@@ -16,6 +16,7 @@
 
 package com.oguzbabaoglu.transitapp;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,7 +28,9 @@ import android.view.ViewGroup;
  *
  * @author Oguz Babaoglu
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<Controller extends BaseController> extends Fragment {
+
+    private Controller controller;
 
     /**
      * @return layout id for the fragment.
@@ -46,4 +49,27 @@ public abstract class BaseFragment extends Fragment {
      * Called during view creation with inflated layout.
      */
     public abstract void onPrepareView(LayoutInflater inflater, View rootView, Bundle savedInstanceState);
+
+    public Controller getController() {
+        return controller;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked") // Class cast exception handled
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            controller = (Controller) activity;
+        } catch (ClassCastException e) {
+            throw new RuntimeException(activity.getLocalClassName() + " must implement controller.", e);
+        }
+        controller.register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        controller.unregister(this);
+        controller = null;
+        super.onDetach();
+    }
 }

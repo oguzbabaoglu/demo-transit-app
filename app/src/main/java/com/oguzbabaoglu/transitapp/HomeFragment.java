@@ -38,7 +38,7 @@ import java.util.ArrayList;
  *
  * @author Oguz Babaoglu
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment<HomeController> implements View.OnClickListener {
 
     private static final String TAG_MAP_FRAGMENT = "home.map";
 
@@ -95,6 +95,8 @@ public class HomeFragment extends BaseFragment {
                 markerManager.addMarkers(markers);
             }
         });
+
+        rootView.findViewById(R.id.home_button_go).setOnClickListener(this);
     }
 
     /**
@@ -111,4 +113,17 @@ public class HomeFragment extends BaseFragment {
         return mapFragment;
     }
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.home_button_go:
+                getController().onRouteRequested();
+                break;
+
+            default:
+                break;
+        }
+
+    }
 }
