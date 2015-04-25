@@ -105,7 +105,7 @@ public class HomeFragment extends BaseFragment {
     private SupportMapFragment createAndAddMap() {
         final SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         final FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.map_container, mapFragment, TAG_MAP_FRAGMENT);
+        transaction.add(R.id.home_map_container, mapFragment, TAG_MAP_FRAGMENT);
         transaction.commit();
 
         return mapFragment;

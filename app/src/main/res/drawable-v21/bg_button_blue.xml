@@ -15,13 +15,8 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <color name="primary">#27BC4B</color>
-    <color name="primary_dark">#17AB5A</color>
-    <color name="white">#FFFFFF</color>
-    <color name="gray">#848484</color>
-    <color name="light_gray">#BDBDBD</color>
-    <color name="light_blue">#2E9AFE</color>
-    <color name="light_blue_pressed">#0174DF</color>
-
-</resources>
+<ripple
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/light_blue_pressed">
+    <item android:drawable="@color/light_blue"/>
+</ripple>
