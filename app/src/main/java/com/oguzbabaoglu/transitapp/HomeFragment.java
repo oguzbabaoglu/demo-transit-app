@@ -18,9 +18,8 @@ package com.oguzbabaoglu.transitapp;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,15 +27,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.oguzbabaoglu.fancymarkers.MarkerManager;
+import com.oguzbabaoglu.transitapp.util.MockLocationSource;
+import com.oguzbabaoglu.transitapp.views.TransitMarker;
 
 import java.util.ArrayList;
 
 /**
+ * First view presented to the user.
+ * Consists mainly of a map for initiating route finding.
+ *
  * @author Oguz Babaoglu
  */
-public class MainActivity extends AppCompatActivity {
+public class HomeFragment extends BaseFragment {
 
-    private static final String TAG_MAP_FRAGMENT = "mainActivity.map";
+    private static final String TAG_MAP_FRAGMENT = "home.map";
 
     // Berlin
     private static final LatLng CENTER = new LatLng(52.520007, 13.404954);
@@ -52,15 +56,25 @@ public class MainActivity extends AppCompatActivity {
 
     private MarkerManager<TransitMarker> markerManager;
 
+    /**
+     * @return new fragment instance.
+     */
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public int getLayoutId() {
+        return R.layout.fragment_home;
+    }
+
+    @Override
+    public void onPrepareView(LayoutInflater inflater, View rootView, Bundle savedInstanceState) {
 
         // Only need to create map once
         final SupportMapFragment mapFragment = savedInstanceState == null
                 ? createAndAddMap()
-                : (SupportMapFragment) getSupportFragmentManager().findFragmentByTag(TAG_MAP_FRAGMENT);
+                : (SupportMapFragment) getChildFragmentManager().findFragmentByTag(TAG_MAP_FRAGMENT);
 
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -90,33 +104,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private SupportMapFragment createAndAddMap() {
         final SupportMapFragment mapFragment = SupportMapFragment.newInstance();
-        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.add(R.id.map_container, mapFragment, TAG_MAP_FRAGMENT);
         transaction.commit();
 
         return mapFragment;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        // noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
