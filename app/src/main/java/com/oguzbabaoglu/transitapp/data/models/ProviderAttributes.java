@@ -16,6 +16,9 @@
 
 package com.oguzbabaoglu.transitapp.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -24,7 +27,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Oguz Babaoglu
  */
-public final class ProviderAttributes {
+public final class ProviderAttributes implements Parcelable {
 
     @SerializedName("vbb")
     private Provider vbb;
@@ -67,4 +70,41 @@ public final class ProviderAttributes {
     public Provider getCallabike() {
         return callabike;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.vbb, flags);
+        dest.writeParcelable(this.drivenow, flags);
+        dest.writeParcelable(this.car2go, flags);
+        dest.writeParcelable(this.google, flags);
+        dest.writeParcelable(this.nextbike, flags);
+        dest.writeParcelable(this.callabike, flags);
+    }
+
+    public ProviderAttributes() {
+    }
+
+    private ProviderAttributes(Parcel in) {
+        this.vbb = in.readParcelable(Provider.class.getClassLoader());
+        this.drivenow = in.readParcelable(Provider.class.getClassLoader());
+        this.car2go = in.readParcelable(Provider.class.getClassLoader());
+        this.google = in.readParcelable(Provider.class.getClassLoader());
+        this.nextbike = in.readParcelable(Provider.class.getClassLoader());
+        this.callabike = in.readParcelable(Provider.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<ProviderAttributes> CREATOR = new Parcelable.Creator<ProviderAttributes>() {
+        public ProviderAttributes createFromParcel(Parcel source) {
+            return new ProviderAttributes(source);
+        }
+
+        public ProviderAttributes[] newArray(int size) {
+            return new ProviderAttributes[size];
+        }
+    };
 }

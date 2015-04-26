@@ -16,12 +16,15 @@
 
 package com.oguzbabaoglu.transitapp.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * @author Oguz Babaoglu
  */
-public final class Provider {
+public final class Provider implements Parcelable {
 
     @SerializedName("provider_icon_url")
     private String iconUrl;
@@ -50,4 +53,37 @@ public final class Provider {
     public String getDisplayName() {
         return displayName;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.iconUrl);
+        dest.writeString(this.disclaimer);
+        dest.writeString(this.packageName);
+        dest.writeString(this.displayName);
+    }
+
+    public Provider() {
+    }
+
+    private Provider(Parcel in) {
+        this.iconUrl = in.readString();
+        this.disclaimer = in.readString();
+        this.packageName = in.readString();
+        this.displayName = in.readString();
+    }
+
+    public static final Parcelable.Creator<Provider> CREATOR = new Parcelable.Creator<Provider>() {
+        public Provider createFromParcel(Parcel source) {
+            return new Provider(source);
+        }
+
+        public Provider[] newArray(int size) {
+            return new Provider[size];
+        }
+    };
 }

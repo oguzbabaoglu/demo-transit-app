@@ -16,12 +16,15 @@
 
 package com.oguzbabaoglu.transitapp.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * @author Oguz Babaoglu
  */
-public final class Price {
+public final class Price implements Parcelable {
 
     @SerializedName("currency")
     private String currency;
@@ -36,4 +39,33 @@ public final class Price {
     public int getAmount() {
         return amount;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.currency);
+        dest.writeInt(this.amount);
+    }
+
+    public Price() {
+    }
+
+    private Price(Parcel in) {
+        this.currency = in.readString();
+        this.amount = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Price> CREATOR = new Parcelable.Creator<Price>() {
+        public Price createFromParcel(Parcel source) {
+            return new Price(source);
+        }
+
+        public Price[] newArray(int size) {
+            return new Price[size];
+        }
+    };
 }

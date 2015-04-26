@@ -16,6 +16,9 @@
 
 package com.oguzbabaoglu.transitapp.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 /**
  * @author Oguz Babaoglu
  */
-public final class Route {
+public final class Route implements Parcelable {
 
     @SerializedName("type")
     private String type;
@@ -32,7 +35,7 @@ public final class Route {
     private String provider;
 
     @SerializedName("segments")
-    private ArrayList<Segment> segments;
+    private ArrayList<Segment> segments = new ArrayList<>();
 
     // TODO: need specific properties for each type
 //    @SerializedName("properties")
@@ -56,4 +59,37 @@ public final class Route {
     public Price getPrice() {
         return price;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.type);
+        dest.writeString(this.provider);
+        dest.writeTypedList(this.segments);
+        dest.writeParcelable(this.price, flags);
+    }
+
+    public Route() {
+    }
+
+    private Route(Parcel in) {
+        this.type = in.readString();
+        this.provider = in.readString();
+        in.readTypedList(this.segments, Segment.CREATOR);
+        this.price = in.readParcelable(Price.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Route> CREATOR = new Parcelable.Creator<Route>() {
+        public Route createFromParcel(Parcel source) {
+            return new Route(source);
+        }
+
+        public Route[] newArray(int size) {
+            return new Route[size];
+        }
+    };
 }

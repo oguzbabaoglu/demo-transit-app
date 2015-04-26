@@ -16,6 +16,9 @@
 
 package com.oguzbabaoglu.transitapp.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -23,7 +26,7 @@ import java.util.Date;
 /**
  * @author Oguz Babaoglu
  */
-public final class Stop {
+public final class Stop implements Parcelable {
 
     @SerializedName("lat")
     private double lat;
@@ -56,4 +59,38 @@ public final class Stop {
     public String getName() {
         return name;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.lat);
+        dest.writeDouble(this.lng);
+        dest.writeLong(dateTime != null ? dateTime.getTime() : -1);
+        dest.writeString(this.name);
+    }
+
+    public Stop() {
+    }
+
+    private Stop(Parcel in) {
+        this.lat = in.readDouble();
+        this.lng = in.readDouble();
+        long tmpDateTime = in.readLong();
+        this.dateTime = tmpDateTime == -1 ? null : new Date(tmpDateTime);
+        this.name = in.readString();
+    }
+
+    public static final Parcelable.Creator<Stop> CREATOR = new Parcelable.Creator<Stop>() {
+        public Stop createFromParcel(Parcel source) {
+            return new Stop(source);
+        }
+
+        public Stop[] newArray(int size) {
+            return new Stop[size];
+        }
+    };
 }

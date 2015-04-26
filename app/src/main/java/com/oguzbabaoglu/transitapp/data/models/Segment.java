@@ -16,6 +16,9 @@
 
 package com.oguzbabaoglu.transitapp.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 /**
  * @author Oguz Babaoglu
  */
-public final class Segment {
+public final class Segment implements Parcelable {
 
     @SerializedName("name")
     private String name;
@@ -32,7 +35,7 @@ public final class Segment {
     private int numStops;
 
     @SerializedName("stops")
-    private ArrayList<Stop> stops;
+    private ArrayList<Stop> stops = new ArrayList<>();
 
     @SerializedName("travel_mode")
     private String travelMode;
@@ -81,4 +84,45 @@ public final class Segment {
     public String getPolyline() {
         return polyline;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeInt(this.numStops);
+        dest.writeTypedList(this.stops);
+        dest.writeString(this.travelMode);
+        dest.writeString(this.description);
+        dest.writeString(this.color);
+        dest.writeString(this.iconUrl);
+        dest.writeString(this.polyline);
+    }
+
+    public Segment() {
+    }
+
+    private Segment(Parcel in) {
+        this.name = in.readString();
+        this.numStops = in.readInt();
+        in.readTypedList(this.stops, Stop.CREATOR);
+        this.travelMode = in.readString();
+        this.description = in.readString();
+        this.color = in.readString();
+        this.iconUrl = in.readString();
+        this.polyline = in.readString();
+    }
+
+    public static final Parcelable.Creator<Segment> CREATOR = new Parcelable.Creator<Segment>() {
+        public Segment createFromParcel(Parcel source) {
+            return new Segment(source);
+        }
+
+        public Segment[] newArray(int size) {
+            return new Segment[size];
+        }
+    };
 }

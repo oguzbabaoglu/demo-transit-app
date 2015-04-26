@@ -16,6 +16,9 @@
 
 package com.oguzbabaoglu.transitapp.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -23,10 +26,10 @@ import java.util.ArrayList;
 /**
  * @author Oguz Babaoglu
  */
-public final class Routes {
+public final class Routes implements Parcelable {
 
     @SerializedName("routes")
-    private ArrayList<Route> routes;
+    private ArrayList<Route> routes = new ArrayList<>();
 
     @SerializedName("provider_attributes")
     private ProviderAttributes providerAttributes;
@@ -38,4 +41,33 @@ public final class Routes {
     public ProviderAttributes getProviderAttributes() {
         return providerAttributes;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(this.routes);
+        dest.writeParcelable(this.providerAttributes, flags);
+    }
+
+    public Routes() {
+    }
+
+    private Routes(Parcel in) {
+        in.readTypedList(this.routes, Route.CREATOR);
+        this.providerAttributes = in.readParcelable(ProviderAttributes.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Routes> CREATOR = new Parcelable.Creator<Routes>() {
+        public Routes createFromParcel(Parcel source) {
+            return new Routes(source);
+        }
+
+        public Routes[] newArray(int size) {
+            return new Routes[size];
+        }
+    };
 }
