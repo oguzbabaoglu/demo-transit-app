@@ -16,12 +16,15 @@
 
 package com.oguzbabaoglu.transitapp;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.oguzbabaoglu.transitapp.data.DataProvider;
 import com.oguzbabaoglu.transitapp.data.models.Routes;
+import com.oguzbabaoglu.transitapp.util.FontUtil;
 import com.oguzbabaoglu.transitapp.util.TimeUtil;
 
 import java.text.ParseException;
@@ -36,6 +39,22 @@ public class HomeActivity extends BaseActivity implements HomeController {
 
     // Assume request was made at this time for logical time values
     private static final String DEPART_TIME = "2015-04-17T12:25:00";
+
+    // Dummy destination
+    private static final String DESTINATION = "Chausseestraße 1, 10115 Berlin, Germany";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        final ActionBar actionBar = getSupportActionBar();
+
+        // Style title with font
+        if (actionBar != null) {
+            actionBar.setTitle(FontUtil.applyFont(this,
+                    getString(R.string.font_caviar_dreams), actionBar.getTitle()));
+        }
+    }
 
     @Override
     protected Fragment getInitialFragment() {
@@ -76,7 +95,7 @@ public class HomeActivity extends BaseActivity implements HomeController {
         } catch (ParseException e) {
             // Should not happen
         }
-        startActivity(RouteActivity.newIntent(this, routes, departTime, "Berlin"));
+        startActivity(RouteActivity.newIntent(this, routes, departTime, DESTINATION));
     }
 
 }

@@ -27,6 +27,7 @@
     <dimen name="text_small">12sp</dimen>
     <dimen name="text_normal">14sp</dimen>
     <dimen name="text_large">16sp</dimen>
+    <dimen name="text_xlarge">20sp</dimen>
 
     <!--Route List-->
     <dimen name="routes_row_size">40dp</dimen>

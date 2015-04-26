@@ -32,20 +32,15 @@ import com.oguzbabaoglu.transitapp.util.FontUtil;
  */
 public abstract class BaseActivity extends AppCompatActivity implements BaseController {
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_toolbar);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
         setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-
-        // Style title with font
-        if (actionBar != null) {
-            actionBar.setTitle(FontUtil.applyFont(this,
-                    getString(R.string.font_caviar_dreams), actionBar.getTitle()));
-        }
 
         // Start with initial fragment
         if (savedInstanceState == null) {
@@ -74,6 +69,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.activity_content, fragment, fragment.getClass().getSimpleName());
         transaction.commit();
+    }
+
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override

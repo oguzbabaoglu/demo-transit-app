@@ -18,7 +18,10 @@ package com.oguzbabaoglu.transitapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.oguzbabaoglu.transitapp.data.models.Routes;
 
@@ -60,5 +63,17 @@ public class RouteActivity extends BaseActivity {
         final RouteListModel uiModel = new RouteListModel(this, routes, departTime, destination);
 
         return RouteListFragmentBuilder.newRouteListFragment(uiModel);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Toolbar toolbar = getToolbar();
+        TextView ticker = (TextView) getLayoutInflater().inflate(R.layout.view_ticker_text, toolbar, false);
+        ticker.setText(destination);
+        ticker.setSelected(true); // start the ticker
+
+        toolbar.addView(ticker);
     }
 }

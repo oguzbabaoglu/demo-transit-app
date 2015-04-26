@@ -47,7 +47,6 @@
 
         <activity
             android:name=".RouteActivity"
-            android:label="@string/title_routes"
             android:screenOrientation="portrait"
             />
 
