@@ -26,4 +26,6 @@
     <string name="home_to">to</string>
 
     <string name="routes_share">Share</string>
+    <string name="routes_hours">h</string>
+    <string name="routes_minutes">min</string>
 </resources>

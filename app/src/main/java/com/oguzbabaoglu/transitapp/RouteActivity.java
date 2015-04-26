@@ -57,7 +57,7 @@ public class RouteActivity extends BaseActivity {
         departTime = getIntent().getLongExtra(KEY_DEPART_TIME, 0);
         destination = getIntent().getStringExtra(KEY_DESTINATION);
 
-        final RouteListModel uiModel = new RouteListModel(routes, departTime, destination);
+        final RouteListModel uiModel = new RouteListModel(this, routes, departTime, destination);
 
         return RouteListFragmentBuilder.newRouteListFragment(uiModel);
     }

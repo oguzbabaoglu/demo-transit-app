@@ -16,6 +16,7 @@
 
 package com.oguzbabaoglu.transitapp;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -33,7 +34,7 @@ public class RouteListModel implements Parcelable {
 
     private final ArrayList<RouteModel> routeModels = new ArrayList<>();
 
-    public RouteListModel(Routes routes, long departTime, String destination) {
+    public RouteListModel(Context context, Routes routes, long departTime, String destination) {
 
         List<Route> routeList = routes.getRoutes();
 
@@ -42,7 +43,7 @@ public class RouteListModel implements Parcelable {
         }
 
         for (Route route : routeList) {
-            routeModels.add(new RouteModel(route, departTime));
+            routeModels.add(new RouteModel(context, route, departTime));
         }
     }
 

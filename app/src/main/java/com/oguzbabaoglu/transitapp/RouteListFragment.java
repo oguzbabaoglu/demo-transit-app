@@ -68,7 +68,7 @@ public class RouteListFragment extends BaseFragment {
 
         for (RouteModel route : routeList) {
             TextView priceText = (TextView) inflater.inflate(R.layout.view_routes_price, rootView, false);
-            priceText.setText("price"); // dummy
+            priceText.setText(route.getTotalTimeText() + "\n" + route.getPriceText());
             priceRow.addView(priceText);
         }
     }

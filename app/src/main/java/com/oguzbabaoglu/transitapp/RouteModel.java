@@ -16,30 +16,45 @@
 
 package com.oguzbabaoglu.transitapp;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
+import com.oguzbabaoglu.transitapp.data.models.Price;
 import com.oguzbabaoglu.transitapp.data.models.Route;
 import com.oguzbabaoglu.transitapp.data.models.Segment;
 import com.oguzbabaoglu.transitapp.data.models.Stop;
 import com.oguzbabaoglu.transitapp.util.ListUtils;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Oguz Babaoglu
  */
 public class RouteModel implements Parcelable {
 
+    private static final int MINUTES_IN_HOUR = 60;
+
+    // Data model has amounts multiplied by 100
+    private static final double AMOUNT_FACTOR = 100;
+
     private final long totalTime;
     private final String totalTimeText;
+    private final String priceText;
 
-    public RouteModel(Route routeData, long departTime) {
+    public RouteModel(Context context, Route routeData, long departTime) {
 
         totalTime = calculateTotalTime(routeData.getSegments(), departTime);
-        totalTimeText = createTimeText(totalTime);
+        totalTimeText = createTimeText(context, totalTime);
+        priceText = createPriceText(routeData.getPrice());
     }
 
     /**
@@ -64,10 +79,35 @@ public class RouteModel implements Parcelable {
     /**
      * @return a human readable format for time.
      */
-    private String createTimeText(long time) {
+    private String createTimeText(Context context, long time) {
 
-        DateFormat df = DateFormat.getTimeInstance();
-        return df.format(new Date(time));
+        long hours = TimeUnit.MILLISECONDS.toHours(time);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(time) % MINUTES_IN_HOUR;
+
+        String hoursText = hours == 0 ? "" : hours + context.getString(R.string.routes_hours) + " ";
+        String minutesText = minutes == 0 ? "" : minutes + context.getString(R.string.routes_minutes);
+
+        return hoursText + minutesText;
+    }
+
+    /**
+     * @return a human readable format for price.
+     */
+    private String createPriceText(Price price) {
+
+        if (price == null) {
+            return "";
+        }
+
+        Currency currency = Currency.getInstance(price.getCurrency());
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+
+        // Replace currency symbol
+        DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) nf).getDecimalFormatSymbols();
+        decimalFormatSymbols.setCurrencySymbol(currency.getSymbol());
+        ((DecimalFormat) nf).setDecimalFormatSymbols(decimalFormatSymbols);
+
+        return nf.format(price.getAmount() / AMOUNT_FACTOR);
     }
 
     public long getTotalTime() {
@@ -76,6 +116,10 @@ public class RouteModel implements Parcelable {
 
     public String getTotalTimeText() {
         return totalTimeText;
+    }
+
+    public String getPriceText() {
+        return priceText;
     }
 
     @Override
@@ -87,11 +131,13 @@ public class RouteModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.totalTime);
         dest.writeString(this.totalTimeText);
+        dest.writeString(this.priceText);
     }
 
     private RouteModel(Parcel in) {
         this.totalTime = in.readLong();
         this.totalTimeText = in.readString();
+        this.priceText = in.readString();
     }
 
     public static final Parcelable.Creator<RouteModel> CREATOR = new Parcelable.Creator<RouteModel>() {

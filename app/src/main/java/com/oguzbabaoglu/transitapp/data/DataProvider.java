@@ -19,6 +19,7 @@ package com.oguzbabaoglu.transitapp.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oguzbabaoglu.transitapp.data.models.Routes;
+import com.oguzbabaoglu.transitapp.util.TimeUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,10 +33,6 @@ import java.io.InputStreamReader;
  */
 public final class DataProvider {
 
-    // Time zone format is not supported by SimpleDateFormat and thus ignored.
-    // Should be either "GMT+01:00" or "+0100"
-    private static final String TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-
     private static Routes routes;
 
     private DataProvider() {
@@ -48,7 +45,7 @@ public final class DataProvider {
 
         final InputStreamReader reader = new InputStreamReader(stream);
 
-        final Gson gson = new GsonBuilder().setDateFormat(TIME_FORMAT).create();
+        final Gson gson = new GsonBuilder().setDateFormat(TimeUtil.FORMAT).create();
         routes = gson.fromJson(reader, Routes.class);
 
         reader.close();

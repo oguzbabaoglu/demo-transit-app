@@ -20,4 +20,5 @@
     android:layout_width="@dimen/routes_column_size"
     android:layout_height="@dimen/routes_row_size"
     android:src="@drawable/bus"
+    android:scaleType="center"
     />
