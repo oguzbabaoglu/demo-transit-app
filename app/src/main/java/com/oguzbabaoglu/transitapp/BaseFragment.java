@@ -23,6 +23,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hannesdorfmann.fragmentargs.FragmentArgs;
+
 /**
  * Base Fragment class.
  *
@@ -31,6 +33,12 @@ import android.view.ViewGroup;
 public abstract class BaseFragment<Controller extends BaseController> extends Fragment {
 
     private Controller controller;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentArgs.inject(this);
+    }
 
     /**
      * @return layout id for the fragment.

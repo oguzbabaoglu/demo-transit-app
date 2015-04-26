@@ -23,9 +23,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.oguzbabaoglu.transitapp.data.models.Price;
-import com.oguzbabaoglu.transitapp.data.models.Route;
-import com.oguzbabaoglu.transitapp.data.models.Routes;
+import com.hannesdorfmann.fragmentargs.annotation.Arg;
 
 import java.util.ArrayList;
 
@@ -37,36 +35,18 @@ import butterknife.InjectView;
  */
 public class RouteListFragment extends BaseFragment {
 
-    private static final String KEY_ROUTES = "routelist.routes";
-
     @InjectView(R.id.route_list_time_column)
     LinearLayout timeColumn;
 
     @InjectView(R.id.route_list_time_price_row)
     LinearLayout priceRow;
 
-    private Routes routes;
-
-    public static RouteListFragment newInstance(Routes routes) {
-        final Bundle args = new Bundle();
-        args.putParcelable(KEY_ROUTES, routes);
-
-        final RouteListFragment fragment = new RouteListFragment();
-        fragment.setArguments(args);
-
-        return fragment;
-    }
+    @Arg
+    RouteListModel routeListModel;
 
     @Override
     public int getLayoutId() {
         return R.layout.fragment_route_list;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        routes = getArguments().getParcelable(KEY_ROUTES);
     }
 
     @Override
@@ -79,21 +59,20 @@ public class RouteListFragment extends BaseFragment {
 
     private void createPriceRow(LayoutInflater inflater, ViewGroup rootView) {
 
-        final ArrayList<Route> routeList = routes.getRoutes();
+        final ArrayList<RouteModel> routeList = routeListModel.getRouteModels();
 
-        for (Route route : routeList) {
+        for (RouteModel route : routeList) {
             TextView priceText = (TextView) inflater.inflate(R.layout.view_routes_price, rootView, false);
-            Price price = route.getPrice();
-            priceText.setText(price == null ? "" : price.getAmount() + "");
+            priceText.setText("price"); // dummy
             priceRow.addView(priceText);
         }
     }
 
     private void createTimeColumn(LayoutInflater inflater, ViewGroup rootView) {
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 20; i++) {
             TextView time = (TextView) inflater.inflate(R.layout.view_routes_time, rootView, false);
-            time.setText(i + "");
+            time.setText(i + ""); // dummy
             timeColumn.addView(time);
         }
     }

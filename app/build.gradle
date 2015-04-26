@@ -15,6 +15,7 @@
  */
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 def GMAPS_API_KEY_DEBUG = "AIzaSyCIC7TzujfYBor-kRO-welvHdOAy0GIb5Y"
 def GMAPS_API_KEY_RELEASE = "AIzaSyCIC7TzujfYBor-kRO-welvHdOAy0GIb5Y" // TODO: Obtain release key
@@ -62,6 +63,8 @@ dependencies {
 
     // Utility libs
     compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.hannesdorfmann.fragmentargs:annotation:2.0.1'
+    apt 'com.hannesdorfmann.fragmentargs:processor:2.0.1'
 
     // Test dependencies
     testCompile 'junit:junit:4.12'

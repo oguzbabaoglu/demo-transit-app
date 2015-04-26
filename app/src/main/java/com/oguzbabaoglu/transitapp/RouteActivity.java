@@ -28,16 +28,25 @@ import com.oguzbabaoglu.transitapp.data.models.Routes;
 public class RouteActivity extends BaseActivity {
 
     private static final String KEY_ROUTES = "route.routes";
+    private static final String KEY_DEPART_TIME = "route.depart";
+    private static final String KEY_DESTINATION = "route.destination";
 
     private Routes routes;
+    private long departTime;
+    private String destination;
 
     /**
      * Intent factory method.
      */
-    public static Intent newIntent(Context context, Routes routes) {
+    public static Intent newIntent(Context context,
+                                   Routes routes,
+                                   long departTime,
+                                   String destination) {
 
         final Intent intent = new Intent(context, RouteActivity.class);
         intent.putExtra(KEY_ROUTES, routes);
+        intent.putExtra(KEY_DEPART_TIME, departTime);
+        intent.putExtra(KEY_DESTINATION, destination);
         return intent;
     }
 
@@ -45,7 +54,11 @@ public class RouteActivity extends BaseActivity {
     protected Fragment getInitialFragment() {
 
         routes = getIntent().getParcelableExtra(KEY_ROUTES);
+        departTime = getIntent().getLongExtra(KEY_DEPART_TIME, 0);
+        destination = getIntent().getStringExtra(KEY_DESTINATION);
 
-        return RouteListFragment.newInstance(routes);
+        final RouteListModel uiModel = new RouteListModel(routes, departTime, destination);
+
+        return RouteListFragmentBuilder.newRouteListFragment(uiModel);
     }
 }

@@ -64,7 +64,7 @@ public class HomeActivity extends BaseActivity implements HomeController {
 
         // This should normally be a Network call
         final Routes routes = DataProvider.getRoutes();
-        startActivity(RouteActivity.newIntent(this, routes));
+        startActivity(RouteActivity.newIntent(this, routes, System.currentTimeMillis(), "Berlin"));
     }
 
 }
