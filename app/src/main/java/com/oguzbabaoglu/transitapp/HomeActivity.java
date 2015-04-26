@@ -20,6 +20,9 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.oguzbabaoglu.transitapp.data.DataProvider;
+import com.oguzbabaoglu.transitapp.data.models.Routes;
+
 /**
  * First Activity presented to the user.
  * Used for initiating route finding.
@@ -58,7 +61,10 @@ public class HomeActivity extends BaseActivity implements HomeController {
 
     @Override
     public void onRouteRequested() {
-        startActivity(RouteActivity.newIntent(this));
+
+        // This should normally be a Network call
+        final Routes routes = DataProvider.getRoutes();
+        startActivity(RouteActivity.newIntent(this, routes));
     }
 
 }

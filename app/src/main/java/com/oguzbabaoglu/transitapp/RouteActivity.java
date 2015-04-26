@@ -20,21 +20,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.oguzbabaoglu.transitapp.data.models.Routes;
+
 /**
  * @author Oguz Babaoglu
  */
 public class RouteActivity extends BaseActivity {
 
+    private static final String KEY_ROUTES = "route.routes";
+
+    private Routes routes;
+
     /**
      * Intent factory method.
      */
-    public static Intent newIntent(Context context) {
+    public static Intent newIntent(Context context, Routes routes) {
 
-        return new Intent(context, RouteActivity.class);
+        final Intent intent = new Intent(context, RouteActivity.class);
+        intent.putExtra(KEY_ROUTES, routes);
+        return intent;
     }
 
     @Override
     protected Fragment getInitialFragment() {
-        return RouteListFragment.newInstance();
+
+        routes = getIntent().getParcelableExtra(KEY_ROUTES);
+
+        return RouteListFragment.newInstance(routes);
     }
 }
