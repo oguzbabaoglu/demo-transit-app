@@ -44,6 +44,7 @@
                     android:id="@+id/route_list_time_price_row"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/routes_row_size"
+                    android:paddingLeft="@dimen/routes_row_margin"
                     android:background="@color/primary"
                     android:orientation="horizontal"
                     tools:layout_width="360dp"
@@ -53,6 +54,8 @@
                     android:id="@+id/route_list_icon_row"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/routes_row_size"
+                    android:paddingLeft="@dimen/routes_row_margin"
+                    android:background="@drawable/divider_bottom"
                     android:orientation="horizontal"
                     tools:layout_width="360dp"
                     />
@@ -79,6 +82,7 @@
             android:layout_width="@dimen/routes_column_size"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/routes_time_column_margin"
+            android:scrollbars="none"
             tools:background="#1A000000"
             >
 

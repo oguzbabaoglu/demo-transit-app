@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,11 +36,14 @@ import butterknife.InjectView;
  */
 public class RouteListFragment extends BaseFragment {
 
-    @InjectView(R.id.route_list_time_column)
-    LinearLayout timeColumn;
-
     @InjectView(R.id.route_list_time_price_row)
     LinearLayout priceRow;
+
+    @InjectView(R.id.route_list_icon_row)
+    LinearLayout iconRow;
+
+    @InjectView(R.id.route_list_time_column)
+    LinearLayout timeColumn;
 
     @Arg
     RouteListModel routeListModel;
@@ -53,8 +57,9 @@ public class RouteListFragment extends BaseFragment {
     public void onPrepareView(LayoutInflater inflater, View rootView, Bundle savedInstanceState) {
         ButterKnife.inject(this, rootView);
 
-        createTimeColumn(inflater, (ViewGroup) rootView);
         createPriceRow(inflater, (ViewGroup) rootView);
+        createIconRow(inflater, (ViewGroup) rootView);
+        createTimeColumn(inflater, (ViewGroup) rootView);
     }
 
     private void createPriceRow(LayoutInflater inflater, ViewGroup rootView) {
@@ -65,6 +70,17 @@ public class RouteListFragment extends BaseFragment {
             TextView priceText = (TextView) inflater.inflate(R.layout.view_routes_price, rootView, false);
             priceText.setText("price"); // dummy
             priceRow.addView(priceText);
+        }
+    }
+
+    private void createIconRow(LayoutInflater inflater, ViewGroup rootView) {
+
+        final ArrayList<RouteModel> routeList = routeListModel.getRouteModels();
+
+        // TODO: Provider icons should be fetched from the network
+        for (RouteModel route : routeList) {
+            ImageView iconView = (ImageView) inflater.inflate(R.layout.view_routes_icon, rootView, false);
+            iconRow.addView(iconView);
         }
     }
 
