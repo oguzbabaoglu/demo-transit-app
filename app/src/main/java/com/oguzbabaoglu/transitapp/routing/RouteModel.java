@@ -30,6 +30,7 @@ import com.oguzbabaoglu.transitapp.util.ListUtils;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
@@ -50,12 +51,14 @@ public class RouteModel implements Parcelable {
     private final long totalTime;
     private final String totalTimeText;
     private final String priceText;
+    private final ArrayList<SegmentModel> segments;
 
     public RouteModel(Context context, Route routeData, long departTime) {
 
         totalTime = calculateTotalTime(routeData.getSegments(), departTime);
         totalTimeText = createTimeText(context, totalTime);
         priceText = createPriceText(routeData.getPrice());
+        segments = createSegments(routeData.getSegments());
     }
 
     /**
@@ -111,6 +114,20 @@ public class RouteModel implements Parcelable {
         return nf.format(price.getAmount() / AMOUNT_FACTOR);
     }
 
+    /**
+     * @return ui models for route segments.
+     */
+    private ArrayList<SegmentModel> createSegments(List<Segment> segments) {
+
+        final ArrayList<SegmentModel> segmentModels = new ArrayList<>(segments.size());
+
+        for (Segment segment : segments) {
+            segmentModels.add(new SegmentModel(segment));
+        }
+
+        return segmentModels;
+    }
+
     public long getTotalTime() {
         return totalTime;
     }
@@ -123,6 +140,10 @@ public class RouteModel implements Parcelable {
         return priceText;
     }
 
+    public ArrayList<SegmentModel> getSegments() {
+        return segments;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -133,12 +154,15 @@ public class RouteModel implements Parcelable {
         dest.writeLong(this.totalTime);
         dest.writeString(this.totalTimeText);
         dest.writeString(this.priceText);
+        dest.writeTypedList(this.segments);
     }
 
     private RouteModel(Parcel in) {
         this.totalTime = in.readLong();
         this.totalTimeText = in.readString();
         this.priceText = in.readString();
+        this.segments = new ArrayList<>();
+        in.readTypedList(this.segments, SegmentModel.CREATOR);
     }
 
     public static final Parcelable.Creator<RouteModel> CREATOR = new Parcelable.Creator<RouteModel>() {

@@ -34,6 +34,7 @@
     <dimen name="routes_row_margin">80dp</dimen>
     <dimen name="routes_time_column_margin">80dp</dimen> <!--2x routes_row_size-->
     <dimen name="routes_column_size">80dp</dimen>
+    <dimen name="routes_interval_size">60dp</dimen>
 
 
 </resources>

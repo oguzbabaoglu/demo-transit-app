@@ -66,10 +66,12 @@
                     android:scrollbars="none"
                     >
 
-                    <TableLayout
+                    <LinearLayout
                         android:id="@+id/route_list_table"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/routes_row_margin"
+                        android:orientation="horizontal"
                         />
 
                 </com.oguzbabaoglu.transitapp.views.SyncedScrollView>

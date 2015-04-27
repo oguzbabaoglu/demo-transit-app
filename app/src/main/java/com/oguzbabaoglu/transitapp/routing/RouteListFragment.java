@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.oguzbabaoglu.transitapp.R;
 import com.oguzbabaoglu.transitapp.core.BaseFragment;
+import com.oguzbabaoglu.transitapp.views.RouteColumn;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,9 @@ public class RouteListFragment extends BaseFragment {
     @InjectView(R.id.route_list_icon_row)
     LinearLayout iconRow;
 
+    @InjectView(R.id.route_list_table)
+    LinearLayout routeTable;
+
     @InjectView(R.id.route_list_time_column)
     LinearLayout timeColumn;
 
@@ -64,6 +68,7 @@ public class RouteListFragment extends BaseFragment {
 
         createPriceRow(inflater, (ViewGroup) rootView);
         createIconRow(inflater, (ViewGroup) rootView);
+        createRouteTable(inflater, (ViewGroup) rootView);
         createTimeColumn(inflater, (ViewGroup) rootView);
     }
 
@@ -86,6 +91,16 @@ public class RouteListFragment extends BaseFragment {
         for (RouteModel route : routeList) {
             ImageView iconView = (ImageView) inflater.inflate(R.layout.view_routes_icon, rootView, false);
             iconRow.addView(iconView);
+        }
+    }
+
+    private void createRouteTable(LayoutInflater inflater, ViewGroup rootView) {
+
+        final ArrayList<RouteModel> routeList = routeListModel.getRouteModels();
+
+        for (RouteModel route : routeList) {
+            RouteColumn routeColumn = new RouteColumn(inflater.getContext(), route);
+            routeTable.addView(routeColumn);
         }
     }
 
