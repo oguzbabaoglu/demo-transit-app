@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * UI model for a single route.
+ *
  * @author Oguz Babaoglu
  */
 public class RouteModel implements Parcelable {

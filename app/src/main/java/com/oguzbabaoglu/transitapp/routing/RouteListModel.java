@@ -28,13 +28,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * UI model for the route list.
+ *
  * @author Oguz Babaoglu
  */
 public class RouteListModel implements Parcelable {
 
     private final ArrayList<RouteModel> routeModels = new ArrayList<>();
 
-    public RouteListModel(Context context, Routes routes, long departTime, String destination) {
+    public RouteListModel(Context context, Routes routes, long departTime) {
 
         List<Route> routeList = routes.getRoutes();
 

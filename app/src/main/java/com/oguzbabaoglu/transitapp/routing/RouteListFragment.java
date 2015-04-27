@@ -34,6 +34,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
+ * List view for routes. Contains a scrollable table of routes
+ * with their segments visualised.
+ *
  * @author Oguz Babaoglu
  */
 public class RouteListFragment extends BaseFragment {

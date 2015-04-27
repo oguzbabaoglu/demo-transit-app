@@ -28,6 +28,8 @@ import com.oguzbabaoglu.transitapp.core.BaseActivity;
 import com.oguzbabaoglu.transitapp.data.models.Routes;
 
 /**
+ * Routing activity. Allows the user to browse through available routes.
+ *
  * @author Oguz Babaoglu
  */
 public class RouteActivity extends BaseActivity {
@@ -62,7 +64,7 @@ public class RouteActivity extends BaseActivity {
         departTime = getIntent().getLongExtra(KEY_DEPART_TIME, 0);
         destination = getIntent().getStringExtra(KEY_DESTINATION);
 
-        final RouteListModel uiModel = new RouteListModel(this, routes, departTime, destination);
+        final RouteListModel uiModel = new RouteListModel(this, routes, departTime);
 
         return RouteListFragmentBuilder.newRouteListFragment(uiModel);
     }
