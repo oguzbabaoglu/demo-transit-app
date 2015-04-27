@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.core;
 
 /**
  * Base controller interface for Activities.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +22,9 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.oguzbabaoglu.transitapp.R;
+import com.oguzbabaoglu.transitapp.routing.RouteActivity;
+import com.oguzbabaoglu.transitapp.core.BaseActivity;
 import com.oguzbabaoglu.transitapp.data.DataProvider;
 import com.oguzbabaoglu.transitapp.data.models.Routes;
 import com.oguzbabaoglu.transitapp.util.FontUtil;

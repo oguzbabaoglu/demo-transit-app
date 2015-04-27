@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.routing;
 
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
+import com.oguzbabaoglu.transitapp.R;
 import com.oguzbabaoglu.transitapp.data.models.Price;
 import com.oguzbabaoglu.transitapp.data.models.Route;
 import com.oguzbabaoglu.transitapp.data.models.Segment;
 import com.oguzbabaoglu.transitapp.data.models.Stop;
 import com.oguzbabaoglu.transitapp.util.ListUtils;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;

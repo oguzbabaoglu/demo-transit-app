@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.home;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -27,6 +27,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.oguzbabaoglu.fancymarkers.MarkerManager;
+import com.oguzbabaoglu.transitapp.R;
+import com.oguzbabaoglu.transitapp.core.BaseFragment;
 import com.oguzbabaoglu.transitapp.util.MockLocationSource;
 import com.oguzbabaoglu.transitapp.views.TransitMarker;
 

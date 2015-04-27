@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.core;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.routing;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,6 +25,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
+import com.oguzbabaoglu.transitapp.R;
+import com.oguzbabaoglu.transitapp.core.BaseFragment;
 
 import java.util.ArrayList;
 

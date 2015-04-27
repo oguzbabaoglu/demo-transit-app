@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.core;
 
 import android.app.Application;
 
+import com.oguzbabaoglu.transitapp.R;
 import com.oguzbabaoglu.transitapp.data.DataProvider;
 
 import java.io.IOException;

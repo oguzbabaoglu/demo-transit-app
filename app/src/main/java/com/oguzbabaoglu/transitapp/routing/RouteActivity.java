@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.routing;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +23,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.oguzbabaoglu.transitapp.R;
+import com.oguzbabaoglu.transitapp.core.BaseActivity;
 import com.oguzbabaoglu.transitapp.data.models.Routes;
 
 /**

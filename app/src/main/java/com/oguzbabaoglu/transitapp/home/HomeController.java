@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.oguzbabaoglu.transitapp;
+package com.oguzbabaoglu.transitapp.home;
+
+import com.oguzbabaoglu.transitapp.core.BaseController;
 
 /**
  * @author Oguz Babaoglu
