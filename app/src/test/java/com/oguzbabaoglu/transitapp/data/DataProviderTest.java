@@ -19,6 +19,7 @@ package com.oguzbabaoglu.transitapp.data;
 import com.oguzbabaoglu.transitapp.data.models.Route;
 import com.oguzbabaoglu.transitapp.data.models.Routes;
 import com.oguzbabaoglu.transitapp.data.models.Stop;
+import com.oguzbabaoglu.transitapp.util.TimeUtil;
 
 import org.junit.Test;
 
@@ -62,7 +63,7 @@ public class DataProviderTest {
                 .isNotNull()
                 .isEqualTo(52.530227);
 
-        Date expectedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US).parse("2015-04-17T13:30:00+02:00");
+        Date expectedDate = TimeUtil.parse("2015-04-17T13:30:00+02:00");
         Date date = stop.getDateTime();
         assertThat(date)
                 .isNotNull()

@@ -41,7 +41,7 @@ import java.text.ParseException;
 public class HomeActivity extends BaseActivity implements HomeController {
 
     // Assume request was made at this time for logical time values
-    private static final String DEPART_TIME = "2015-04-17T12:25:00";
+    private static final String DEPART_TIME = "2015-04-17T13:25:00+02:00";
 
     // Dummy destination
     private static final String DESTINATION = "Chausseestraße 1, 10115 Berlin, Germany";

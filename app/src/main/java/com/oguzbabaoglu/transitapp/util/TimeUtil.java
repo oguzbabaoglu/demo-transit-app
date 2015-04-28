@@ -26,9 +26,13 @@ import java.util.Locale;
  */
 public final class TimeUtil {
 
-    // Time zone format is not supported by SimpleDateFormat and thus ignored.
-    // Should be either "GMT+01:00" or "+0100"
-    public static final String FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    /**
+     * Time format used is ISO_8601.
+     * Android's implementation accepts 'ZZZZZ' for zones in the +01:00 format.
+     * Java 7 expects 'XXX' for this format.
+     * This means 'ZZZZZ' works on devices but fails the new local unit tests.
+     */
+    public static final String FORMAT = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"; // Java "yyyy-MM-dd'T'HH:mm:ssXXX"
 
     private TimeUtil() {
     }
