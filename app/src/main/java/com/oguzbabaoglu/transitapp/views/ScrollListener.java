@@ -16,13 +16,16 @@
 
 package com.oguzbabaoglu.transitapp.views;
 
-import android.view.View;
-
 /**
+ * Listener for {@link ScrollNotifier}
+ *
  * @author Oguz Babaoglu
  */
 public interface ScrollListener {
 
-    void onScrollChanged(View syncedScrollView, int l, int t, int oldl, int oldt);
+    /**
+     * Callback for scroll events from the notifier.
+     */
+    void onScrollChanged(ScrollNotifier scrollNotifier, int l, int t, int oldl, int oldt);
 
 }

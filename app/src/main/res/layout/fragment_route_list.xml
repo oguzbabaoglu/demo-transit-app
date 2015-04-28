@@ -61,6 +61,7 @@
                     />
 
                 <com.oguzbabaoglu.transitapp.views.SyncedScrollView
+                    android:id="@+id/route_list_table_scroll"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:scrollbars="none"
@@ -81,6 +82,7 @@
         </HorizontalScrollView>
 
         <com.oguzbabaoglu.transitapp.views.SyncedScrollView
+            android:id="@+id/route_list_time_column_scroll"
             android:layout_width="@dimen/routes_column_size"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/routes_time_column_margin"

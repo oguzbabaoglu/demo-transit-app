@@ -24,4 +24,6 @@
     <color name="light_blue">#2E9AFE</color>
     <color name="light_blue_pressed">#0174DF</color>
 
+    <color name="background_80">#CCEEEEEE</color>
+
 </resources>

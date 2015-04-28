@@ -17,6 +17,8 @@
 package com.oguzbabaoglu.transitapp.views;
 
 /**
+ * Sends scroll events to attached {@link ScrollListener}.
+ *
  * @author Oguz Babaoglu
  */
 public interface ScrollNotifier {
@@ -24,4 +26,6 @@ public interface ScrollNotifier {
     void setScrollListener(ScrollListener scrollListener);
 
     ScrollListener getScrollListener();
+
+    void scrollTo(int x, int y);
 }

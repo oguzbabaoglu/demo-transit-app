@@ -34,19 +34,41 @@ import java.util.List;
  */
 public class RouteListModel implements Parcelable {
 
+    private final long departTime;
+    private final long maxTotalTime;
     private final ArrayList<RouteModel> routeModels = new ArrayList<>();
 
     public RouteListModel(Context context, Routes routes, long departTime) {
 
+        this.departTime = departTime;
+
         List<Route> routeList = routes.getRoutes();
 
         if (ListUtils.isEmpty(routeList)) {
+            maxTotalTime = 0;
             return;
         }
 
+        long tmpMax = 0;
+
         for (Route route : routeList) {
-            routeModels.add(new RouteModel(context, route, departTime));
+            RouteModel routeModel = new RouteModel(context, route, departTime);
+            routeModels.add(routeModel);
+
+            if (routeModel.getTotalTime() > tmpMax) {
+                tmpMax = routeModel.getTotalTime();
+            }
         }
+
+        maxTotalTime = tmpMax;
+    }
+
+    public long getDepartTime() {
+        return departTime;
+    }
+
+    public long getMaxTotalTime() {
+        return maxTotalTime;
     }
 
     public ArrayList<RouteModel> getRouteModels() {
@@ -60,11 +82,16 @@ public class RouteListModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeLong(this.departTime);
         dest.writeTypedList(this.routeModels);
+        dest.writeLong(this.maxTotalTime);
     }
 
     private RouteListModel(Parcel in) {
+        this.departTime = in.readLong();
         in.readTypedList(this.routeModels, RouteModel.CREATOR);
+        this.maxTotalTime = in.readLong();
     }
 
     public static final Parcelable.Creator<RouteListModel> CREATOR = new Parcelable.Creator<RouteListModel>() {

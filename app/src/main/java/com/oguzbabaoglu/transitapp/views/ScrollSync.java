@@ -16,30 +16,33 @@
 
 package com.oguzbabaoglu.transitapp.views;
 
-import android.view.View;
-
 import java.util.ArrayList;
 
 /**
- * Syncs all registered scroll views with each other.
+ * Syncs all registered scrollable views with each other.
  *
  * @author Oguz Babaoglu
  */
 public class ScrollSync implements ScrollListener {
 
     private boolean isSyncing;
-    private ArrayList<View> registeredViews;
+    private ArrayList<ScrollNotifier> registeredViews;
 
     public ScrollSync() {
         registeredViews = new ArrayList<>();
     }
 
-    public void register(View syncedScrollView) {
-        registeredViews.add(syncedScrollView);
+    /**
+     * @param scrollNotifier notifier view to register
+     */
+    public void register(ScrollNotifier scrollNotifier) {
+
+        scrollNotifier.setScrollListener(this);
+        registeredViews.add(scrollNotifier);
     }
 
     @Override
-    public void onScrollChanged(View syncedScrollView, int l, int t, int oldl, int oldt) {
+    public void onScrollChanged(ScrollNotifier scrollNotifier, int l, int t, int oldl, int oldt) {
 
         // avoid notifications while scroll bars are being synchronized
         if (isSyncing) {
@@ -48,11 +51,11 @@ public class ScrollSync implements ScrollListener {
 
         isSyncing = true;
 
-        final int senderIndex = registeredViews.indexOf(syncedScrollView);
+        final int senderIndex = registeredViews.indexOf(scrollNotifier);
 
-        for (int i = 0; i < registeredViews.size(); i ++) {
+        for (int i = 0; i < registeredViews.size(); i++) {
 
-            // No need to scroll sender
+            // No need to notify sender
             if (i != senderIndex) {
                 registeredViews.get(i).scrollTo(l, t);
             }
