@@ -28,7 +28,8 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <HorizontalScrollView
+        <com.oguzbabaoglu.transitapp.views.BiScrollView
+            android:id="@+id/route_list_horizontal_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
@@ -81,7 +82,7 @@
 
             </LinearLayout>
 
-        </HorizontalScrollView>
+        </com.oguzbabaoglu.transitapp.views.BiScrollView>
 
         <com.oguzbabaoglu.transitapp.views.SyncedScrollView
             android:id="@+id/route_list_time_column_scroll"

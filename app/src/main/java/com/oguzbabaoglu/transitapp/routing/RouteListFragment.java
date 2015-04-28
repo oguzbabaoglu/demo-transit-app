@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.oguzbabaoglu.transitapp.R;
 import com.oguzbabaoglu.transitapp.core.BaseFragment;
+import com.oguzbabaoglu.transitapp.views.BiScrollView;
 import com.oguzbabaoglu.transitapp.views.RouteColumn;
 import com.oguzbabaoglu.transitapp.views.ScrollSync;
 import com.oguzbabaoglu.transitapp.views.SyncedScrollView;
@@ -58,6 +59,9 @@ public class RouteListFragment extends BaseFragment {
     @InjectView(R.id.route_list_time_column)
     LinearLayout timeColumn;
 
+    @InjectView(R.id.route_list_horizontal_scroll)
+    BiScrollView biScrollView;
+
     @InjectView(R.id.route_list_table_scroll)
     SyncedScrollView routeTableScroll;
 
@@ -85,6 +89,9 @@ public class RouteListFragment extends BaseFragment {
         ScrollSync sync = new ScrollSync();
         sync.register(routeTableScroll);
         sync.register(timeColumnScroll);
+
+        // Connect bi-directional scrollview
+        biScrollView.setChild(routeTableScroll);
     }
 
     private void createPriceRow(LayoutInflater inflater) {
