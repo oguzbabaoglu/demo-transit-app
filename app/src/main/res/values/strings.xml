@@ -23,6 +23,7 @@
     <string name="home_departing_now">Departing Now</string>
     <string name="home_from">from</string>
     <string name="home_to">to</string>
+    <string name="home_my_location">My current location</string>
 
     <string name="routes_share">Share</string>
     <string name="routes_hours">h</string>

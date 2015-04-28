@@ -24,20 +24,18 @@
 
     <EditText
         android:id="@+id/home_input_from"
+        style="@style/EditText.Home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/home_from"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         />
 
     <EditText
         android:id="@+id/home_input_to"
+        style="@style/EditText.Home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/home_to"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         />
 
     <LinearLayout
@@ -49,12 +47,12 @@
             android:id="@+id/home_text_departing"
             style="@style/TextView"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="@string/home_departing_now"
-            android:textSize="@dimen/text_large"
             android:textColor="@color/gray"
+            android:textSize="@dimen/text_large"
             />
 
         <Button
@@ -62,9 +60,9 @@
             style="@style/Button.Blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/home_go"
-            android:drawableRight="@drawable/arrow_right"
             android:drawableEnd="@drawable/arrow_right"
+            android:drawableRight="@drawable/arrow_right"
+            android:text="@string/home_go"
             />
 
     </LinearLayout>

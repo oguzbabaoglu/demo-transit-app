@@ -19,6 +19,7 @@ package com.oguzbabaoglu.transitapp.home;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,6 +40,9 @@ import butterknife.InjectView;
  * @author Oguz Babaoglu
  */
 public class HomeFragment extends BaseMapFragment<HomeController> implements View.OnClickListener {
+
+    // Dummy destination
+    private static final String DESTINATION = "Chausseestraße 1, 10115 Berlin, Germany";
 
     private static final int ZOOM = 11;
 
@@ -61,6 +65,12 @@ public class HomeFragment extends BaseMapFragment<HomeController> implements Vie
     @InjectView(R.id.home_button_go)
     View buttonGo;
 
+    @InjectView(R.id.home_input_from)
+    EditText inputFrom;
+
+    @InjectView(R.id.home_input_to)
+    EditText inputTo;
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_home;
@@ -71,6 +81,12 @@ public class HomeFragment extends BaseMapFragment<HomeController> implements Vie
         super.onPrepareView(inflater, rootView, savedInstanceState);
 
         buttonGo.setOnClickListener(this);
+
+        // Mock values used
+        inputFrom.setText(getString(R.string.home_my_location));
+        inputTo.setText(DESTINATION);
+        inputFrom.setEnabled(false);
+        inputTo.setEnabled(false);
     }
 
     @Override
