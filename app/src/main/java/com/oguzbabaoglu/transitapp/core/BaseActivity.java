@@ -46,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
 
             final Fragment fragment = getInitialFragment();
             if (fragment != null) {
-                addContentFragment(fragment);
+                addContentFragment(fragment, false);
             }
         }
     }
@@ -61,12 +61,40 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
     /**
      * Add a fragment to the content container.
      *
-     * @param fragment Fragment to be added
+     * @param fragment       Fragment to be added
+     * @param addToBackStack true if transaction should be added to back stack
      */
-    public void addContentFragment(Fragment fragment) {
+    public void addContentFragment(Fragment fragment, boolean addToBackStack) {
+
+        String tag = fragment.getClass().getSimpleName();
 
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.activity_content, fragment, fragment.getClass().getSimpleName());
+        transaction.add(R.id.activity_content, fragment, tag);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(tag);
+        }
+
+        transaction.commit();
+    }
+
+    /**
+     * Replace current fragment in the content container.
+     *
+     * @param fragment       Fragment to be added
+     * @param addToBackStack true if transaction should be added to back stack
+     */
+    public void replaceContentFragment(Fragment fragment, boolean addToBackStack) {
+
+        String tag = fragment.getClass().getSimpleName();
+
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.activity_content, fragment, tag);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(tag);
+        }
+
         transaction.commit();
     }
 

@@ -37,4 +37,8 @@
     <dimen name="routes_interval_size">60dp</dimen>
     <dimen name="routes_segment_width">60dp</dimen>
 
+    <!--Route Map-->
+    <dimen name="routes_map_height">200dp</dimen>
+
+
 </resources>

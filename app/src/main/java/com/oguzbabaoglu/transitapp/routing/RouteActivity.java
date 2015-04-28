@@ -32,7 +32,7 @@ import com.oguzbabaoglu.transitapp.data.models.Routes;
  *
  * @author Oguz Babaoglu
  */
-public class RouteActivity extends BaseActivity {
+public class RouteActivity extends BaseActivity implements RouteListController {
 
     private static final String KEY_ROUTES = "route.routes";
     private static final String KEY_DEPART_TIME = "route.depart";
@@ -41,6 +41,7 @@ public class RouteActivity extends BaseActivity {
     private Routes routes;
     private long departTime;
     private String destination;
+    private RouteListModel routeListModel;
 
     /**
      * Intent factory method.
@@ -64,14 +65,18 @@ public class RouteActivity extends BaseActivity {
         departTime = getIntent().getLongExtra(KEY_DEPART_TIME, 0);
         destination = getIntent().getStringExtra(KEY_DESTINATION);
 
-        final RouteListModel uiModel = new RouteListModel(this, routes, departTime);
+        routeListModel = new RouteListModel(this, routes, departTime);
 
-        return RouteListFragmentBuilder.newRouteListFragment(uiModel);
+        return RouteListFragmentBuilder.newRouteListFragment(routeListModel);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         Toolbar toolbar = getToolbar();
         TextView ticker = (TextView) getLayoutInflater().inflate(R.layout.view_ticker_text, toolbar, false);
@@ -79,5 +84,12 @@ public class RouteActivity extends BaseActivity {
         ticker.setSelected(true); // start the ticker
 
         toolbar.addView(ticker);
+    }
+
+    @Override
+    public void onRouteSelected(int routeIndex) {
+
+        // TODO: Should start a new Activity for the map view.
+        replaceContentFragment(RouteMapFragmentBuilder.newRouteMapFragment(routeIndex, routeListModel), true);
     }
 }

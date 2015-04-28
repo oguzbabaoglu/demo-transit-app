@@ -20,7 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/routes_column_size"
     android:layout_height="@dimen/routes_interval_size"
-    android:background="@color/background_80"
+    android:background="@color/material_background_80"
     android:gravity="center"
     android:textColor="@color/gray"
     tools:text="17:00"

@@ -25,6 +25,8 @@ import android.view.ViewGroup;
 
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 
+import butterknife.ButterKnife;
+
 /**
  * Base Fragment class.
  *
@@ -49,6 +51,7 @@ public abstract class BaseFragment<Controller extends BaseController> extends Fr
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(getLayoutId(), container, false);
+        ButterKnife.inject(this, rootView);
         onPrepareView(inflater, rootView, savedInstanceState);
         return rootView;
     }

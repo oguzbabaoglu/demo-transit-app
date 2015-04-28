@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
@@ -45,7 +44,7 @@ import butterknife.InjectView;
  *
  * @author Oguz Babaoglu
  */
-public class RouteListFragment extends BaseFragment {
+public class RouteListFragment extends BaseFragment<RouteListController> implements View.OnClickListener {
 
     @InjectView(R.id.route_list_time_price_row)
     LinearLayout priceRow;
@@ -78,7 +77,6 @@ public class RouteListFragment extends BaseFragment {
 
     @Override
     public void onPrepareView(LayoutInflater inflater, View rootView, Bundle savedInstanceState) {
-        ButterKnife.inject(this, rootView);
 
         createPriceRow(inflater);
         createIconRow(inflater);
@@ -120,8 +118,10 @@ public class RouteListFragment extends BaseFragment {
 
         final ArrayList<RouteModel> routeList = routeListModel.getRouteModels();
 
-        for (RouteModel route : routeList) {
-            RouteColumn routeColumn = new RouteColumn(inflater.getContext(), route);
+        for (int i = 0; i < routeList.size(); i++) {
+            RouteColumn routeColumn = new RouteColumn(inflater.getContext(), routeList.get(i));
+            routeColumn.setTag(i);
+            routeColumn.setOnClickListener(this);
             routeTable.addView(routeColumn);
         }
     }
@@ -145,5 +145,11 @@ public class RouteListFragment extends BaseFragment {
             timeView.setText(timeText);
             timeColumn.addView(timeView);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        getController().onRouteSelected((int) v.getTag());
     }
 }

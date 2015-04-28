@@ -17,22 +17,20 @@
 package com.oguzbabaoglu.transitapp.home;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.oguzbabaoglu.fancymarkers.MarkerManager;
 import com.oguzbabaoglu.transitapp.R;
-import com.oguzbabaoglu.transitapp.core.BaseFragment;
+import com.oguzbabaoglu.transitapp.core.BaseMapFragment;
 import com.oguzbabaoglu.transitapp.util.MockLocationSource;
 import com.oguzbabaoglu.transitapp.views.TransitMarker;
 
 import java.util.ArrayList;
+
+import butterknife.InjectView;
 
 /**
  * First view presented to the user.
@@ -40,14 +38,11 @@ import java.util.ArrayList;
  *
  * @author Oguz Babaoglu
  */
-public class HomeFragment extends BaseFragment<HomeController> implements View.OnClickListener {
+public class HomeFragment extends BaseMapFragment<HomeController> implements View.OnClickListener {
 
-    private static final String TAG_MAP_FRAGMENT = "home.map";
-
-    // Berlin
-    private static final LatLng CENTER = new LatLng(52.520007, 13.404954);
     private static final int ZOOM = 11;
 
+    // Some mocked locations for initial map markers
     private static final LatLng[] LOCATIONS = new LatLng[]{
             new LatLng(52.56068229, 13.40632554),
             new LatLng(52.47953663, 13.39603998),
@@ -56,14 +51,15 @@ public class HomeFragment extends BaseFragment<HomeController> implements View.O
             new LatLng(52.53702663, 13.34097879)
     };
 
-    private MarkerManager<TransitMarker> markerManager;
-
     /**
      * @return new fragment instance.
      */
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
+
+    @InjectView(R.id.home_button_go)
+    View buttonGo;
 
     @Override
     public int getLayoutId() {
@@ -72,47 +68,29 @@ public class HomeFragment extends BaseFragment<HomeController> implements View.O
 
     @Override
     public void onPrepareView(LayoutInflater inflater, View rootView, Bundle savedInstanceState) {
+        super.onPrepareView(inflater, rootView, savedInstanceState);
 
-        // Only need to create map once
-        final SupportMapFragment mapFragment = savedInstanceState == null
-                ? createAndAddMap()
-                : (SupportMapFragment) getChildFragmentManager().findFragmentByTag(TAG_MAP_FRAGMENT);
-
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CENTER, ZOOM));
-                googleMap.setLocationSource(new MockLocationSource());
-                googleMap.setMyLocationEnabled(true);
-
-                markerManager = new MarkerManager<>(googleMap);
-
-                final ArrayList<TransitMarker> markers = new ArrayList<>(LOCATIONS.length);
-
-                for (LatLng latLng : LOCATIONS) {
-                    markers.add(new TransitMarker(latLng));
-                }
-
-                markerManager.addMarkers(markers);
-            }
-        });
-
-        rootView.findViewById(R.id.home_button_go).setOnClickListener(this);
+        buttonGo.setOnClickListener(this);
     }
 
-    /**
-     * Creates a Map fragment and adds to view.
-     *
-     * @return created map fragment
-     */
-    private SupportMapFragment createAndAddMap() {
-        final SupportMapFragment mapFragment = SupportMapFragment.newInstance();
-        final FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.home_map_container, mapFragment, TAG_MAP_FRAGMENT);
-        transaction.commit();
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        super.onMapReady(googleMap);
 
-        return mapFragment;
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MockLocationSource.BERLIN, ZOOM));
+
+        final ArrayList<TransitMarker> markers = new ArrayList<>(LOCATIONS.length);
+
+        for (LatLng latLng : LOCATIONS) {
+            markers.add(new TransitMarker(latLng));
+        }
+
+        getMarkerManager().addMarkers(markers);
+    }
+
+    @Override
+    protected int getMapContainerId() {
+        return R.id.home_map_container;
     }
 
     @Override
