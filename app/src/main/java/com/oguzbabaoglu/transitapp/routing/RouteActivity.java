@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.oguzbabaoglu.transitapp.R;
@@ -91,5 +92,17 @@ public class RouteActivity extends BaseActivity implements RouteListController {
 
         // TODO: Should start a new Activity for the map view.
         replaceContentFragment(RouteMapFragmentBuilder.newRouteMapFragment(routeIndex, routeListModel), true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // This is required because map is not a new Activity yet
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

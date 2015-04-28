@@ -18,11 +18,16 @@ package com.oguzbabaoglu.transitapp.routing;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.PolyUtil;
 import com.oguzbabaoglu.transitapp.data.models.Segment;
 import com.oguzbabaoglu.transitapp.data.models.Stop;
 import com.oguzbabaoglu.transitapp.util.ListUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,6 +41,7 @@ public class SegmentModel implements Parcelable {
     private final int color;
     private final long startTime;
     private final long endTime;
+    private final List<LatLng> path;
 
     public SegmentModel(Segment segment) {
 
@@ -56,11 +62,22 @@ public class SegmentModel implements Parcelable {
         if (ListUtils.isEmpty(stops)) {
             startTime = 0;
             endTime = 0;
+            path = Collections.emptyList();
             return;
         }
 
         startTime = stops.get(0).getDateTime().getTime();
         endTime = stops.get(stops.size() - 1).getDateTime().getTime();
+
+        String polyline = segment.getPolyline();
+
+        path = TextUtils.isEmpty(polyline)
+                ? Collections.<LatLng>emptyList()
+                : PolyUtil.decode(polyline);
+    }
+
+    public List<LatLng> getPath() {
+        return path;
     }
 
     public String getName() {
@@ -90,6 +107,7 @@ public class SegmentModel implements Parcelable {
         dest.writeInt(this.color);
         dest.writeLong(this.startTime);
         dest.writeLong(this.endTime);
+        dest.writeTypedList(this.path);
     }
 
     private SegmentModel(Parcel in) {
@@ -97,6 +115,8 @@ public class SegmentModel implements Parcelable {
         this.color = in.readInt();
         this.startTime = in.readLong();
         this.endTime = in.readLong();
+        this.path = new ArrayList<>();
+        in.readTypedList(this.path, LatLng.CREATOR);
     }
 
     public static final Parcelable.Creator<SegmentModel> CREATOR = new Parcelable.Creator<SegmentModel>() {

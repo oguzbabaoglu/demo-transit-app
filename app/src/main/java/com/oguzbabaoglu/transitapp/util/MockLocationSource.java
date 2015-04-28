@@ -28,7 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public final class MockLocationSource implements LocationSource {
 
-    public static final LatLng BERLIN = new LatLng(52.520007, 13.404954);
+    public static final LatLng BERLIN = new LatLng(52.52987, 13.40334);
 
     private static final float ACCURACY = 1; // Meters
     private static final int SPEED = 0;

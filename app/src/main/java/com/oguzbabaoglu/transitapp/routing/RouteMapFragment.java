@@ -17,13 +17,21 @@
 package com.oguzbabaoglu.transitapp.routing;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.oguzbabaoglu.transitapp.R;
 import com.oguzbabaoglu.transitapp.core.BaseMapFragment;
+
+import java.util.List;
 
 import butterknife.InjectView;
 
@@ -70,6 +78,45 @@ public class RouteMapFragment extends BaseMapFragment {
         }
 
         nameText.setText(routeNameBuilder.toString());
-        priceText.setText(route.getPriceText() + " " + route.getTotalTimeText());
+        priceText.setText(route.getPriceText() + " - " + route.getTotalTimeText());
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        super.onMapReady(googleMap);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int mapWidth = displaymetrics.widthPixels;
+        int mapHeight = getResources().getDimensionPixelSize(R.dimen.routes_map_height);
+        int mapPadding = getResources().getDimensionPixelSize(R.dimen.routes_map_padding);
+
+        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+
+        float polyWidth = getResources().getDimension(R.dimen.routes_map_polyline_width);
+        RouteModel route = routeListModel.getRouteModels().get(routeIndex);
+
+        for (SegmentModel segment : route.getSegments()) {
+
+            List<LatLng> path = segment.getPath();
+
+            if (path.isEmpty()) {
+                continue;
+            }
+
+            for (LatLng point : path) {
+                boundsBuilder.include(point);
+            }
+
+            PolylineOptions polylineOptions = new PolylineOptions()
+                    .addAll(segment.getPath())
+                    .color(segment.getColor())
+                    .width(polyWidth);
+            googleMap.addPolyline(polylineOptions);
+        }
+
+        // Make sure map projection includes route
+        googleMap.moveCamera(CameraUpdateFactory
+                .newLatLngBounds(boundsBuilder.build(), mapWidth, mapHeight, mapPadding));
     }
 }

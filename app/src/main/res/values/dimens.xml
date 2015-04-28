@@ -39,6 +39,8 @@
 
     <!--Route Map-->
     <dimen name="routes_map_height">200dp</dimen>
+    <dimen name="routes_map_padding">20dp</dimen>
+    <dimen name="routes_map_polyline_width">8dp</dimen>
 
 
 </resources>

@@ -28,6 +28,7 @@ import android.widget.ScrollView;
  *
  * @author Oguz Babaoglu
  */
+// TODO: Sending touch events directly causes bugs for handling child click events. Need to fix.
 public class BiScrollView extends HorizontalScrollView {
 
     private ScrollView child;
@@ -46,16 +47,20 @@ public class BiScrollView extends HorizontalScrollView {
 
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
-        super.onTouchEvent(event);
-        child.dispatchTouchEvent(event);
-        return true;
+        return super.onTouchEvent(event);
+
+        // Disabled until click bug fixed
+//        child.dispatchTouchEvent(event);
+//        return true;
     }
 
     @Override
     public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
-        super.onInterceptTouchEvent(event);
-        child.onInterceptTouchEvent(event);
-        return true;
+        return super.onInterceptTouchEvent(event);
+
+        // Disabled until click bug fixed
+//        child.onInterceptTouchEvent(event);
+//        return true;
     }
 
     public void setChild(ScrollView child) {
