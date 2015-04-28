@@ -48,6 +48,7 @@ public class RouteModel implements Parcelable {
     // Data model has amounts multiplied by 100
     private static final double AMOUNT_FACTOR = 100;
 
+    private final long departTime;
     private final long totalTime;
     private final String totalTimeText;
     private final String priceText;
@@ -55,6 +56,7 @@ public class RouteModel implements Parcelable {
 
     public RouteModel(Context context, Route routeData, long departTime) {
 
+        this.departTime = departTime;
         totalTime = calculateTotalTime(routeData.getSegments(), departTime);
         totalTimeText = createTimeText(context, totalTime);
         priceText = createPriceText(routeData.getPrice());
@@ -128,6 +130,10 @@ public class RouteModel implements Parcelable {
         return segmentModels;
     }
 
+    public long getDepartTime() {
+        return departTime;
+    }
+
     public long getTotalTime() {
         return totalTime;
     }
@@ -151,6 +157,7 @@ public class RouteModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.departTime);
         dest.writeLong(this.totalTime);
         dest.writeString(this.totalTimeText);
         dest.writeString(this.priceText);
@@ -158,6 +165,7 @@ public class RouteModel implements Parcelable {
     }
 
     private RouteModel(Parcel in) {
+        this.departTime = in.readLong();
         this.totalTime = in.readLong();
         this.totalTimeText = in.readString();
         this.priceText = in.readString();

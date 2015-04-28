@@ -39,7 +39,7 @@ public class SegmentModel implements Parcelable {
 
     public SegmentModel(Segment segment) {
 
-        name = segment.getName() == null ? "" : segment.getName();
+        name = segment.getName() == null ? segment.getTravelMode() : segment.getName();
 
         int tmpColor;
 
@@ -49,7 +49,7 @@ public class SegmentModel implements Parcelable {
             tmpColor = 0;
         }
 
-        color = tmpColor;
+        color = tmpColor | 0xFF000000; // add full alpha
 
         List<Stop> stops = segment.getStops();
 

@@ -16,12 +16,11 @@
 
 package com.oguzbabaoglu.transitapp.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.text.TextPaint;
 import android.view.View;
 
@@ -29,6 +28,7 @@ import com.oguzbabaoglu.transitapp.R;
 import com.oguzbabaoglu.transitapp.routing.RouteModel;
 import com.oguzbabaoglu.transitapp.routing.SegmentModel;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -36,25 +36,28 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Oguz Babaoglu
  */
+@SuppressLint("ViewConstructor") // Does not support xml inflation
 public class RouteColumn extends View {
-
-    private static final String MEASURE_TEXT = "U20";
 
     private final Paint barPaint;
     private final TextPaint textPaint;
-    private final int textHeight;
 
-    private final long totalTime;
     private final double milliToPixels; // conversion between milliseconds to pixels
     private final int width;
     private final int height;
+    private final int segmentPadding;
+
+    private final ArrayList<SegmentModel> segmentModels;
+
+    private final long departTime; // use depart time to normalize time values
 
     public RouteColumn(Context context, RouteModel model) {
         super(context);
 
         final Resources res = context.getResources();
 
-        totalTime = model.getTotalTime();
+        segmentModels = model.getSegments();
+        departTime = model.getDepartTime();
 
         int intervalMinutes = res.getInteger(R.integer.routes_time_interval_min);
         long intervalMillis = TimeUnit.MINUTES.toMillis(intervalMinutes);
@@ -63,19 +66,41 @@ public class RouteColumn extends View {
         milliToPixels = (double) intervalPixels / intervalMillis;
 
         width = res.getDimensionPixelSize(R.dimen.routes_column_size);
-        height = (int) (totalTime * milliToPixels);
 
-        barPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // We want to sync height with that of the time column
+        int realHeight = (int) (model.getTotalTime() * milliToPixels);
+        height = realHeight + intervalPixels - (realHeight % intervalPixels);
+
+        int segmentWidth = res.getDimensionPixelSize(R.dimen.routes_segment_width);
+        segmentPadding = (width - segmentWidth) >> 1;
+
+        // Init paint objects
+        barPaint = createBarPaint();
+        textPaint = createTextPaint();
+    }
+
+    /**
+     * @return paint object for drawing segments
+     */
+    private Paint createBarPaint() {
+
+        Paint barPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         barPaint.setStyle(Paint.Style.FILL);
 
-        textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
+        return barPaint;
+    }
+
+    /**
+     * @return paint object for drawing text
+     */
+    private TextPaint createTextPaint() {
+
+        TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
         textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setColor(Color.WHITE);
+        textPaint.setColor(getResources().getColor(R.color.white));
         textPaint.setTextSize(getResources().getDimension(R.dimen.text_normal));
 
-        Rect textBounds = new Rect();
-        textPaint.getTextBounds(MEASURE_TEXT, 0, MEASURE_TEXT.length() - 1, textBounds);
-        textHeight = textBounds.height();
+        return textPaint;
     }
 
     @Override
@@ -86,19 +111,35 @@ public class RouteColumn extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        // Testing height calculation
-        barPaint.setColor(Color.BLUE);
-        canvas.drawRect(0, 0, getWidth(), getHeight(), barPaint);
+        for (SegmentModel segment : segmentModels) {
+            drawSegment(canvas, segment);
+        }
     }
 
-    private void drawEmptySegment(Canvas canvas, SegmentModel segmentModel) {
+    /**
+     * Draw an individual segment.
+     *
+     * @param canvas  canvas to draw on
+     * @param segment segment to draw
+     */
+    private void drawSegment(Canvas canvas, SegmentModel segment) {
 
-        barPaint.setColor(segmentModel.getColor());
-    }
+        barPaint.setColor(segment.getColor());
 
-    private void drawSegment(Canvas canvas, SegmentModel segmentModel) {
+        int top = (int) ((segment.getStartTime() - departTime) * milliToPixels);
+        int bottom = (int) ((segment.getEndTime() - departTime) * milliToPixels);
 
-        barPaint.setColor(segmentModel.getColor());
+        int left = segmentPadding;
+        int right = width - segmentPadding;
+
+        canvas.drawRect(left, top, right, bottom, barPaint);
+
+        String name = segment.getName();
+
+        int xPos = width >> 1;
+        int yPos = (int) (top + ((bottom - top) / 2) - ((textPaint.descent() + textPaint.ascent()) / 2));
+
+        canvas.drawText(name, xPos, yPos, textPaint);
     }
 
 }

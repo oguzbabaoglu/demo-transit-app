@@ -17,6 +17,7 @@
 
 <resources>
 
-    <integer name="routes_time_interval_min">10</integer>
+    <!--This should be 10min, a small interval is used here to showcase scrolling.-->
+    <integer name="routes_time_interval_min">5</integer>
 
 </resources>
