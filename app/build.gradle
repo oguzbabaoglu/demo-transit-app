@@ -56,7 +56,7 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.3.4'
 
     // Support lib
-    compile 'com.android.support:appcompat-v7:22.1.0'
+    compile 'com.android.support:appcompat-v7:22.1.1'
 
     // Data parsing
     compile 'com.google.code.gson:gson:2.3.1'
