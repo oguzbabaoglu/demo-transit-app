@@ -16,18 +16,20 @@
 
 package com.oguzbabaoglu.transitapp.data;
 
+import com.oguzbabaoglu.transitapp.BuildConfig;
 import com.oguzbabaoglu.transitapp.data.models.Route;
 import com.oguzbabaoglu.transitapp.data.models.Routes;
 import com.oguzbabaoglu.transitapp.data.models.Stop;
 import com.oguzbabaoglu.transitapp.util.TimeUtil;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,15 +38,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Oguz Babaoglu
  */
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class DataProviderTest {
 
     @Test
     public void testParser() throws Exception {
 
-        // There must be some way to access Context resources from unit tests
-        InputStream stream = DataProviderTest.class.getResourceAsStream("/routes.json");
-
-        DataProvider.init(stream);
+        DataProvider.init(RuntimeEnvironment.application);
         Routes routes = DataProvider.getRoutes();
         assertThat(routes)
                 .isNotNull();

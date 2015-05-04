@@ -16,8 +16,11 @@
 
 package com.oguzbabaoglu.transitapp.data;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.oguzbabaoglu.transitapp.R;
 import com.oguzbabaoglu.transitapp.data.models.Routes;
 import com.oguzbabaoglu.transitapp.util.TimeUtil;
 
@@ -39,10 +42,11 @@ public final class DataProvider {
     }
 
     /**
-     * @param stream input stream for the Json file.
+     * @param context context to load Json file from.
      */
-    public static void init(InputStream stream) throws IOException {
+    public static void init(Context context) throws IOException {
 
+        final InputStream stream = context.getResources().openRawResource(R.raw.routes);
         final InputStreamReader reader = new InputStreamReader(stream);
 
         final Gson gson = new GsonBuilder().setDateFormat(TimeUtil.FORMAT).create();
